@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kim2091 | AI Upscaling & Restoration</title>
+    <meta name="description" content="Developer of AI upscaling and restoration models. Creator of UltraSharp, AnimeSharp, TFDAT, and VapourKit - image and video enhancement tools trained on ethical datasets.">
+<link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        secondary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px rgba(16, 185, 129, 0.5), 0 0 10px rgba(16, 185, 129, 0.3)' },
+                            '100%': { boxShadow: '0 0 20px rgba(16, 185, 129, 0.8), 0 0 30px rgba(16, 185, 129, 0.5)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-900 text-gray-100 antialiased transition-colors duration-300">
+    <script src="components/navbar.js"></script>
+    <script src="components/footer.js"></script>
+    
+    <custom-navbar></custom-navbar>
+    
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+            <!-- Animated Background Canvas -->
+            <canvas id="neuralCanvas" class="absolute inset-0 w-full h-full"></canvas>
+            
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/50 to-gray-900"></div>
+            
+            <!-- Hero Content -->
+            <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+                <div class="mb-6 inline-flex items-center px-4 py-2 rounded-full bg-primary-500/10 border border-primary-500/30 animate-pulse-slow">
+                    <i data-feather="cpu" class="w-4 h-4 text-primary-400 mr-2"></i>
+                    <span class="text-primary-300 text-sm font-medium">AI Upscaling & Restoration</span>
+                </div>
+                
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">
+                    <span class="bg-gradient-to-r from-primary-400 via-secondary-400 to-primary-400 bg-clip-text text-transparent animate-gradient">
+                        Kim2091
+                    </span>
+                </h1>
+                
+                <p class="text-xl sm:text-2xl text-gray-400 max-w-3xl mx-auto mb-8 leading-relaxed">
+                    I make AI tools for <span class="text-primary-400 font-semibold">upscaling and restoring</span> images and videos. 
+                    Clean, ethical models trained on custom datasets to make your content look its best.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#models" class="group relative px-8 py-4 bg-primary-600 hover:bg-primary-500 rounded-xl font-semibold transition-all duration-300 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-secondary-600 to-primary-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <span class="relative flex items-center gap-2">
+                            Explore Models
+                            <i data-feather="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </a>
+                    <a href="#projects" class="px-8 py-4 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2">
+                        <i data-feather="folder" class="w-5 h-5"></i>
+                        View Projects
+                    </a>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="mt-12 flex justify-center gap-6">
+                    <a href="https://github.com/Kim2091" target="_blank" rel="noopener" class="p-3 bg-gray-800 hover:bg-gray-700 rounded-full border border-gray-700 hover:border-primary-500 transition-all duration-300 group" title="GitHub">
+                        <svg class="w-6 h-6 text-gray-400 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="https://huggingface.co" target="_blank" rel="noopener" class="p-3 bg-gray-800 hover:bg-gray-700 rounded-full border border-gray-700 hover:border-secondary-500 transition-all duration-300 group" title="Hugging Face">
+                        <svg class="w-6 h-6 text-gray-400 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    </a>
+                    <a href="https://civitai.com" target="_blank" rel="noopener" class="p-3 bg-gray-800 hover:bg-gray-700 rounded-full border border-gray-700 hover:border-purple-500 transition-all duration-300 group" title="Civitai">
+                        <i data-feather="image" class="w-6 h-6 text-gray-400 group-hover:text-purple-400"></i>
+                    </a>
+                    <a href="https://ko-fi.com" target="_blank" rel="noopener" class="p-3 bg-gray-800 hover:bg-gray-700 rounded-full border border-gray-700 hover:border-pink-500 transition-all duration-300 group" title="Ko-fi">
+                        <svg class="w-6 h-6 text-gray-400 group-hover:text-pink-400" fill="currentColor" viewBox="0 0 24 24"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798 0 .1-.02 4.591 4.59 4.591h.089c-.773 4.085-4.859 4.593-4.859 4.593-.604 0-.679.798-.679.798 0 .1-.02 4.591 4.59 4.591h18.389c.773 0 1.298-.393 1.648-1.093.35-.7.35-1.593.35-2.493s-.148-1.893-.35-2.493c-.2-.6-.625-.993-1.298-.993h-7.491c-.773 0-1.298.393-1.648 1.093-.35.7-.35 1.593-.35 2.493s.148 1.893.35 2.493c.2.6.625.993 1.298.993h5.893c.773 0 1.298-.393 1.648-1.093.35-.7.35-1.593.35-2.493s-.148-1.893-.35-2.493c-.2-.6-.625-.993-1.298-.993h-9.291c-.773 0-1.298.393-1.648 1.093-.35.7-.35 1.593-.35 2.493s.148 1.893.35 2.493c.2.6.625.993 1.298.993h3.291v4.591c0 1.093.875 1.993 1.975 1.993h5.975c3.875 0 7.025-3.143 7.025-7.018v-7.982z"/></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+                <i data-feather="chevron-down" class="w-6 h-6 text-gray-500"></i>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="py-20 lg:py-32 bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                    <div>
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+                            About <span class="text-primary-400">My Work</span>
+                        </h2>
+                        <p class="text-gray-400 text-lg leading-relaxed mb-6">
+                            I develop <strong class="text-gray-200">upscaling and restoration</strong> models and tools 
+                            trained on custom, ethically sourced datasets. No scraping, no stolen art.
+                        </p>
+                        
+                        <div class="space-y-3 mb-6">
+                            <p class="text-gray-400 leading-relaxed">
+                                <strong class="text-primary-400">UltraSharpV2</strong> — Versatile 4x model for photography, anime, artwork, and more.
+                            </p>
+                            <p class="text-gray-400 leading-relaxed">
+                                <strong class="text-secondary-400">AnimeSharpV4</strong> — Faithful 2x upscaling for anime and illustrations.
+                            </p>
+                            <p class="text-gray-400 leading-relaxed">
+                                <strong class="text-purple-400">TFDAT</strong> — Custom high quality & fast video upscaling architecture.
+                            </p>
+                            <p class="text-gray-400 leading-relaxed">
+                                <strong class="text-cyan-400">VapourKit</strong> — Free GUI for video processing workflows.
+                            </p>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-3">
+                            <span class="px-4 py-2 bg-primary-500/10 border border-primary-500/30 rounded-lg text-primary-300 text-sm">
+                                PyTorch & TensorRT
+                            </span>
+                            <span class="px-4 py-2 bg-secondary-500/10 border border-secondary-500/30 rounded-lg text-secondary-300 text-sm">
+                                Easy to use
+                            </span>
+                            <span class="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-lg text-purple-300 text-sm">
+                                Image Upscaling
+                            </span>
+                            <span class="px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-lg text-orange-300 text-sm">
+                                Video Restoration
+                            </span>
+                            <span class="px-4 py-2 bg-pink-500/10 border border-pink-500/30 rounded-lg text-pink-300 text-sm">
+                                Ethical Training
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl blur-2xl opacity-30"></div>
+                        <div class="relative bg-gray-800 rounded-2xl overflow-hidden border border-gray-700">
+                            <img src="https://i.slow.pics/aase06mb.webp" alt="VapourKit Interface" class="w-full h-auto">
+                        </div>
+                    </div>
+</div>
+            </div>
+        </section>
+        
+        <!-- Model Showcase Section -->
+        <section id="models" class="py-20 lg:py-32 bg-gray-800/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+                        AI <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400">Models</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                        Upscaling models for different use cases. All trained on custom or licensed datasets.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- UltraSharpV2 -->
+                    <a href="https://huggingface.co/Kim2091/UltraSharpV2" target="_blank" rel="noopener" class="group bg-gray-900 rounded-2xl overflow-hidden border border-gray-700 hover:border-primary-500 transition-all duration-300 hover:-translate-y-2">
+                        <div class="relative overflow-hidden h-48">
+                            <img src="https://static.photos/technology/640x360/101" alt="UltraSharpV2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 px-3 py-1 bg-primary-500/90 rounded-full text-xs font-semibold">Photos</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-gray-100 group-hover:text-primary-400 transition-colors">UltraSharpV2</h3>
+                            <p class="text-gray-400 text-sm mb-4">High quality upscaler for real-world photography. Trained on high-quality edited RAW photos.</p>
+                            <div class="flex items-center gap-4 text-sm">
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-gray-300">4x/8x</span>
+                                <span class="text-primary-400 font-semibold">1M+ downloads</span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- AnimeSharpV4 -->
+                    <a href="https://github.com/Kim2091/Kim2091-Models/releases/tag/2x-AnimeSharpV4" target="_blank" rel="noopener" class="group bg-gray-900 rounded-2xl overflow-hidden border border-gray-700 hover:border-secondary-500 transition-all duration-300 hover:-translate-y-2">
+                        <div class="relative overflow-hidden h-48">
+                            <img src="https://static.photos/studio/640x360/201" alt="AnimeSharpV4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 px-3 py-1 bg-secondary-500/90 rounded-full text-xs font-semibold">Anime</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-gray-100 group-hover:text-secondary-400 transition-colors">AnimeSharpV4</h3>
+                            <p class="text-gray-400 text-sm mb-4">Purpose-built for anime and illustration. Very clean upscaling with artifact removal.</p>
+                            <div class="flex items-center gap-4 text-sm">
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-gray-300">2x/4x</span>
+                                <span class="text-secondary-400 font-semibold">1.8M+ downloads</span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- TFDAT -->
+                    <a href="https://github.com/Kim2091/TFDAT" target="_blank" rel="noopener" class="group bg-gray-900 rounded-2xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-all duration-300 hover:-translate-y-2">
+                        <div class="relative overflow-hidden h-48">
+                            <img src="https://static.photos/abstract/640x360/301" alt="TFDAT" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 px-3 py-1 bg-purple-500/90 rounded-full text-xs font-semibold">Video</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-gray-100 group-hover:text-purple-400 transition-colors">TFDAT</h3>
+                            <p class="text-gray-400 text-sm mb-4">Custom VSR architecture for stable video upscaling. Supports PyTorch, ONNX, and TensorRT.</p>
+                            <div class="flex items-center gap-4 text-sm">
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-gray-300">VSR</span>
+                                <span class="text-purple-400 font-semibold">Open Source</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 lg:py-32 bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+                        Open Source <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400">Tools</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                        Free tools and utilities for upscaling workflows.
+                    </p>
+                </div>
+                
+                <div class="flex flex-wrap gap-6 mb-12 justify-center">
+                    <!-- Project Card 1 - VapourKit -->
+                    <a href="https://github.com/Kim2091/vapourkit" target="_blank" rel="noopener" class="group bg-gray-800 rounded-2xl overflow-hidden border border-gray-700 hover:border-primary-500 transition-all duration-300 hover:-translate-y-2 w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] max-w-sm">
+                        <div class="relative overflow-hidden">
+                            <!-- Space for VapourKit images - placeholder for now -->
+                            <img src="https://i.slow.pics/aase06mb.webp" alt="VapourKit" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 px-3 py-1 bg-black/70 rounded-full text-xs text-primary-300">Active</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-100 group-hover:text-primary-400 transition-colors">VapourKit</h3>
+                            <p class="text-gray-400 text-sm mb-4">Free, open source video upscaling and enhancement tool with a user-friendly interface. Supports TensorRT and DirectML backends for AI video processing with VapourSynth.</p>
+                            <div class="flex items-center gap-4 text-sm text-gray-500">
+                                <span class="flex items-center gap-1"><i data-feather="star" class="w-4 h-4"></i> 33</span>
+                                <span class="flex items-center gap-1"><i data-feather="video" class="w-4 h-4"></i> Video</span>
+                                <span class="flex items-center gap-1"><i data-feather="code" class="w-4 h-4"></i> TypeScript</span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- Project Card 2 - TFDAT -->
+                    <a href="https://github.com/Kim2091/TFDAT" target="_blank" rel="noopener" class="group bg-gray-800 rounded-2xl overflow-hidden border border-gray-700 hover:border-secondary-500 transition-all duration-300 hover:-translate-y-2 w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] max-w-sm">
+                        <div class="relative overflow-hidden">
+                            <img src="https://static.photos/software/640x360/402" alt="TFDAT" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 px-3 py-1 bg-black/70 rounded-full text-xs text-secondary-300">Active</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-100 group-hover:text-secondary-400 transition-colors">TFDAT</h3>
+                            <p class="text-gray-400 text-sm mb-4">Custom VSR (Video Super Resolution) architecture for accessible and stable video upscaling. Supports PyTorch, ONNX, and TensorRT inference.</p>
+                            <div class="flex items-center gap-4 text-sm text-gray-500">
+                                <span class="flex items-center gap-1"><i data-feather="star" class="w-4 h-4"></i> 2</span>
+                                <span class="flex items-center gap-1"><i data-feather="zap" class="w-4 h-4"></i> VSR</span>
+                                <span class="flex items-center gap-1"><i data-feather="code" class="w-4 h-4"></i> Python</span>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- Easily add more projects here following the same pattern -->
+                </div>
+                
+                <div class="text-center">
+                    <a href="https://github.com/Kim2091" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-8 py-4 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-xl font-semibold transition-all duration-300">
+                        <i data-feather="github" class="w-5 h-5"></i>
+                        View All Projects on GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Community Section -->
+        <section id="community" class="py-20 lg:py-32 bg-gray-800/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+                        Hang Out in the <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400">Discord</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                        Share results, get help with upscaling, or just chat about image restoration. 
+                        Pretty chill community, low on drama.
+                    </p>
+                </div>
+                
+                <div class="flex flex-wrap gap-6 justify-center">
+                    <!-- Discord Server 1 -->
+                    <a href="https://discord.gg/g3tjhWFw7b" target="_blank" rel="noopener" class="group bg-gray-900 rounded-2xl p-6 border border-gray-700 hover:border-indigo-500 transition-all duration-300 hover:-translate-y-2 w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] max-w-sm">
+                        <div class="w-16 h-16 bg-indigo-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8 text-indigo-400" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 mb-2">Enhance Everything!</h3>
+                        <p class="text-gray-400 text-sm mb-4">Main community server for restoration and model training.</p>
+                        <div class="flex items-center text-indigo-400 text-sm">
+                            <span class="flex items-center gap-2">
+                                <i data-feather="users" class="w-4 h-4"></i>
+                                8.6k members
+                            </span>
+                        </div>
+                    </a>
+                    
+                    <!-- Discord Server 2 -->
+                    <!-- <a href="https://discord.gg" target="_blank" rel="noopener" class="group bg-gray-900 rounded-2xl p-6 border border-gray-700 hover:border-pink-500 transition-all duration-300 hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-pink-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8 text-pink-400" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 mb-2">AnimeSharp Creators</h3>
+                        <p class="text-gray-400 text-sm mb-4">Dedicated server for anime AI art and model fine-tuning.</p>
+                        <div class="flex items-center text-pink-400 text-sm">
+                            <span class="flex items-center gap-2">
+                                <i data-feather="users" class="w-4 h-4"></i>
+                                8.2k members
+                            </span>
+                        </div>
+                    </a> -->
+                    
+                    <!-- Discord Server 3 -->
+                    <!-- <a href="https://discord.gg" target="_blank" rel="noopener" class="group bg-gray-900 rounded-2xl p-6 border border-gray-700 hover:border-cyan-500 transition-all duration-300 hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-cyan-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 mb-2">Dev Lab</h3>
+                        <p class="text-gray-400 text-sm mb-4">Technical discussions, API support, and developer collaboration.</p>
+                        <div class="flex items-center text-cyan-400 text-sm">
+                            <span class="flex items-center gap-2">
+                                <i data-feather="users" class="w-4 h-4"></i>
+                                4.1k members
+                            </span>
+                        </div>
+                    </a> -->
+                    
+                    <!-- Twitter/X -->
+                    <!-- <a href="https://twitter.com" target="_blank" rel="noopener" class="group bg-gray-900 rounded-2xl p-6 border border-gray-700 hover:border-gray-500 transition-all duration-300 hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-gray-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8 text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 mb-2">@NeuralOdyssey</h3>
+                        <p class="text-gray-400 text-sm mb-4">Latest updates, research insights, and community highlights.</p>
+                        <div class="flex items-center text-gray-400 text-sm">
+                            <span class="flex items-center gap-2">
+                                <i data-feather="users" class="w-4 h-4"></i>
+                                45k followers
+                            </span>
+                        </div>
+                    </a> -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Support Section -->
+        <section id="support" class="py-20 lg:py-32 bg-gray-900">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6">
+                    Support <span class="text-primary-400">My Work</span>
+                </h2>
+                <p class="text-gray-400 text-lg mb-10">
+                    Your support helps fund GPU time for training, research, and keeping 
+                    models freely available. Every contribution helps!
+                </p>
+                
+                <div class="grid sm:grid-cols-3 gap-6">
+                    <a href="https://ko-fi.com" target="_blank" rel="noopener" class="group p-8 bg-pink-500/10 border border-pink-500/30 rounded-2xl hover:bg-pink-500/20 transition-all duration-300">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-pink-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i data-feather="coffee" class="w-8 h-8 text-pink-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-100 mb-2">Ko-fi</h3>
+                        <p class="text-gray-400 text-sm">Buy me a coffee and get early access to new models.</p>
+                    </a>
+                    
+                    <a href="https://patreon.com" target="_blank" rel="noopener" class="group p-8 bg-primary-500/10 border border-primary-500/30 rounded-2xl hover:bg-primary-500/20 transition-all duration-300">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-primary-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i data-feather="heart" class="w-8 h-8 text-primary-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-100 mb-2">Patreon</h3>
+                        <p class="text-gray-400 text-sm">Monthly support with exclusive perks and behind-the-scenes content.</p>
+                    </a>
+                    
+                    <a href="https://github.com/sponsors" target="_blank" rel="noopener" class="group p-8 bg-gray-700/50 border border-gray-600 rounded-2xl hover:bg-gray-700 transition-all duration-300">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-gray-600/50 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i data-feather="github" class="w-8 h-8 text-gray-300"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-100 mb-2">GitHub Sponsors</h3>
+                        <p class="text-gray-400 text-sm">Support open-source development directly on GitHub.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <custom-footer></custom-footer>
+    
+    <!-- Model Details Modal -->
+    <div id="model-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModelModal()"></div>
+        <div class="relative z-10 min-h-screen flex items-center justify-center p-4">
+            <div class="bg-gray-900 rounded-2xl border border-gray-700 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6 sm:p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 id="modal-title" class="text-2xl font-bold text-gray-100"></h3>
+                        <button onclick="closeModelModal()" class="p-2 hover:bg-gray-800 rounded-lg transition-colors">
+                            <i data-feather="x" class="w-6 h-6 text-gray-400"></i>
+                        </button>
+                    </div>
+                    <div id="modal-content" class="text-gray-400 space-y-4">
+                        <!-- Content injected via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>feather.replace();</script>
+<script src="https://huggingface.co/deepsite/deepsite-badge.js"></script>
+</body>
+</html>
